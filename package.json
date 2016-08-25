@@ -7,7 +7,9 @@
     "test": "test"
   },
   "dependencies": {
-    "lwip": "^0.0.9"
+    "chai": "^3.5.0",
+    "lwip": "^0.0.9",
+    "mocha": "^3.0.2"
   },
   "devDependencies": {},
   "scripts": {
