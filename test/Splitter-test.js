@@ -19,16 +19,13 @@ function splitterTests() {
     describe('#constructor(SpriteSheet)', function () {
         it('shouldn\'t throw an error', function () {
             assert.doesNotThrow(function () {
-                splitter = new Splitter();
+                splitter = new Splitter(spriteSheet);
             }, Error);
         });
 
-        it('should set #rows, #columns, #cellWidth, and #cellHeight to \
-        undefined', function () {
-            assert.isUndefined(splitter.rows);
-            assert.isUndefined(splitter.columns);
-            assert.isUndefined(splitter.cellWidth);
-            assert.isUndefined(splitter.cellHeight);
+        it('should set #spriteSheet to passed in sprite sheet object',
+        function () {
+            assert.deepEqual(splitter.spriteSheet, spriteSheet);
         });
 
         it('should set #sprites to Object', function () {
@@ -37,24 +34,22 @@ function splitterTests() {
     });
 
     describe('#split()', function () {
-        it('should return error if #rows and #columns or #cellWidth and \
-        #cellHeight are not numbers', function (done) {
-            splitter.cellWidth = undefined;
-            splitter.cellHeight = 10;
-            splitter.rows = undefined;
-            splitter.columns = 10;
+        it('should throw error if cellWidth and cellHeight are not numbers',
+        function () {
+            var width = 16;
+            var height = '16';
+            var split = splitter.split.bind(undefined, width, height);
 
-            assert.throws(splitter.split, TypeError);
+            assert.throws(split, TypeError);
         });
 
-        it('shouldn\'t return error if #rows and #columns or #cellWidth and \
-        #cellHeight are numbers', function (done) {
-            splitter.cellWidth = 16;
-            splitter.cellHeight = 16;
-            splitter.rows = undefined;
-            splitter.columns = undefined;
+        it('shouldn\'t return error if width and height are numbers',
+        function () {
+            var width = 16;
+            var height = 16;
+            var split = splitter.split.bind(undefined, width, height);
 
-            assert.throws(splitter.split, TypeError);
+            assert.doesNotThrow(split, TypeError);
         });
     });
 };
