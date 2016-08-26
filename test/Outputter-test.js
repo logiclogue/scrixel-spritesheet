@@ -1,10 +1,28 @@
 var assert = require('chai').assert;
 var Outputter = require('../src/Outputter');
+var Loader = require('../src/Loader');
+var Splitter = require('../src/Splitter');
+var SpriteSheet = require('../src/SpriteSheet');
 
 
 var sprites = [];
+var spriteSheet;
+var splitter;
+var loader = new Loader();
 
-describe('#Outputter', function () {
+loader.loadImage(__dirname + '/res/image.gif', function (image) {
+    spriteSheet = new SpriteSheet(image);
+
+    var splitter = new Splitter(spriteSheet);
+
+    splitter.split(16, 16, function (spritesLocal) {
+        sprites = spritesLocal;
+
+        describe('#Outputter', outputterTests);
+    });
+});
+
+function outputterTests() {
     var outputter;
 
     describe('#constructor()', function () {
@@ -14,7 +32,7 @@ describe('#Outputter', function () {
             }, TypeError);
         });
 
-        it('shouldn\'t throw an error if sprites are passed', function (), {
+        it('shouldn\'t throw an error if sprites are passed', function () {
             assert.doesNotThrow(function () {
                 outputter = new Outputter(sprites);
             });
@@ -39,4 +57,4 @@ describe('#Outputter', function () {
 
         });
     });
-});
+};
