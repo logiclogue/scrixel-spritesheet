@@ -45,7 +45,16 @@ function outputterTests() {
 
     describe('#output', function (done) {
         it('should write to file correct base64 string', function () {
+            outputter.path = __dirname + './res/sprites.json';
+            outputter.spriteSheetName = 'main';
 
+            outputter.output(function () {
+                fs.readFile(outputter.path, 'utf8', function (err, data) {
+                    spritesObject = JSON.parse(data);
+
+                    assert.equal(); /// !!!!!
+                });
+            });
         });
 
         it('should throw error if path isn\'t a string', function () {
