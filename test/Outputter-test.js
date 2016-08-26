@@ -49,12 +49,12 @@ function outputterTests() {
         });
 
         it('should throw error if path isn\'t a string', function () {
-
+            assert.throws(outputter.output, TypeError);
         });
 
         it('should throw error if spriteSheetName isn\'t a string',
         function () {
-
+            assert.throws(outputter.output, TypeError);
         });
     });
 };
