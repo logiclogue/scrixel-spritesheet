@@ -57,9 +57,14 @@ function splitterTests() {
         it('should split correctly', function (done) {
             splitter.split(16, 16, function (sprites) {
                 lwip.open(__dirname + '/res/output.gif', function (err, image) {
-                    assert.deepEqual(sprites[1][1], image);
+                    sprites[1][1].toBuffer('gif', function (err, spriteBuffer) {
+                        image.toBuffer('gif', function (err, imageBuffer) {
+                            // Welcome to callback HELL!
+                            assert.deepEqual(spriteBuffer, imageBuffer);
 
-                    done();
+                            done();
+                        });
+                    });
                 });
             });
         });
