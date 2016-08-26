@@ -18,7 +18,7 @@ function Outputter(sprites) {
     /*
      * Outputs sprites as base64 GIF string to JSON file.
      */
-    proto_.output = function () {
+    proto_.output = function (callback) {
         this._checkTypes();
     };
 
