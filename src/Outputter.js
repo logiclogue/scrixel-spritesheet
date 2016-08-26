@@ -15,6 +15,27 @@ function Outputter(sprites) {
 
 (function (proto_) {
 
+    /*
+     * Outputs sprites as base64 GIF string to JSON file.
+     */
+    proto_.output = function () {
+        this._checkTypes();
+    };
+
+
+    /*
+     * Checks whether #path and #spriteSheetname are strings.
+     */
+    proto_._checkTypes = function () {
+        if (typeof this.path !== 'string') {
+            throw new TypeError('#path is not a string');
+        }
+
+        if (typeof this.spriteSheetName !== 'string') {
+           throw new TypeError('#spriteSheetName is not a string');
+        }
+    };
+
 }(Outputter.prototype));
 
 module.exports = Outputter;
