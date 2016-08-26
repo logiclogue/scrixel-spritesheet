@@ -1,4 +1,5 @@
 var assert = require('chai').assert;
+var lwip = require('lwip');
 var Splitter = require('../src/Splitter');
 var SpriteSheet = require('../src/SpriteSheet');
 var Loader = require('../src/Loader');
@@ -8,7 +9,7 @@ var loader = new Loader();
 var spriteSheet;
 
 loader.loadImage(__dirname + '/res/image.gif', function (image) {
-    spirteSheet = new SpriteSheet(image);
+    spriteSheet = new SpriteSheet(image);
 
     describe('Splitter', splitterTests);
 });
@@ -28,8 +29,8 @@ function splitterTests() {
             assert.deepEqual(splitter.spriteSheet, spriteSheet);
         });
 
-        it('should set #sprites to Object', function () {
-            assert.deepEqual(splitter.sprites, {});
+        it('should set #sprites to Array', function () {
+            assert.isArray(splitter.sprites);
         });
     });
 
@@ -47,9 +48,20 @@ function splitterTests() {
         function () {
             var width = 16;
             var height = 16;
-            var split = splitter.split.bind(undefined, width, height);
 
-            assert.doesNotThrow(split, TypeError);
+            assert.doesNotThrow(function () {
+                splitter.split(width, height);
+            }, TypeError);
+        });
+
+        it('should split correctly', function (done) {
+            splitter.split(16, 16, function (sprites) {
+                lwip.open(__dirname + '/res/output.gif', function (err, image) {
+                    assert.deepEqual(sprites[1][1], image);
+
+                    done();
+                });
+            });
         });
     });
 };
