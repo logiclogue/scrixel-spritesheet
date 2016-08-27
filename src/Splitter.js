@@ -67,7 +67,7 @@ function Splitter(spriteSheet) {
      * loaded.
      */
     proto_._checkCompleted = function (callback) {
-        if (this._completed === this._totalSprites) {
+        if (this._completed >= this._totalSprites) {
             callback(this.sprites);
         }
         else {
