@@ -34,11 +34,15 @@ function Outputter(sprites) {
         var maxY = this._sprites[0].length;
         this._totalSprites = maxX * maxY;
 
-        for (x = 0; x < maxX; x += 1) {
-            for (y = 0; y < maxY; y += 1)  {
-                this._convert(x, y);
+        fs.readFile(this.path, function (err, data) {
+            this._exportObject = JSON.parse(data) || {};
+
+            for (x = 0; x < maxX; x += 1) {
+                for (y = 0; y < maxY; y += 1)  {
+                    this._convert(x, y);
+                }
             }
-        }
+        }.bind(this));
 
         this._checkConverted(callback);
     };

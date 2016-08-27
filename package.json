@@ -1,6 +1,6 @@
 {
   "name": "scrixel-spritesheet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sprite sheet loader and compiler for the Scrixel game engine",
   "main": "index.js",
   "directories": {
