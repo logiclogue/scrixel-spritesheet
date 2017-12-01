@@ -1,7 +1,7 @@
 const Jimp = require("jimp");
 const _ = require("lodash");
 
-// Int -> Int -> String -> Promise [String]
+// Int -> Int -> String -> Promise [Buffer]
 function split(rows, columns, filePath) {
     return new Promise((resolve, reject) => {
         Jimp.read(filePath).then(image => {
@@ -12,7 +12,7 @@ function split(rows, columns, filePath) {
                 .map(column => splitColumns(columns, column)))
                 .map(image =>
                     new Promise((resolve, reject) =>
-                        image.getBase64(Jimp.MIME_PNG, (x, y) =>
+                        image.getBuffer(Jimp.MIME_PNG, (x, y) =>
                             resolve(y))));
 
             Promise.all(values).then(resolve).catch(reject);
