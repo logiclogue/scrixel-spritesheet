@@ -2,26 +2,44 @@ const Jimp = require("jimp");
 const _ = require("lodash");
 
 // Int -> Int -> String -> Promise [String]
-Jimp.read("./test/res/image.gif").then(image => {
+function split(rows, columns, filePath) {
+    return new Promise((resolve, reject) => {
+        Jimp.read(filePath).then(image => {
+            const width = image.bitmap.width;
+            const height = image.bitmap.height;
+
+            let values = _.flatten(splitRows(rows, image)
+                .map(column => splitColumns(columns, column)))
+                .map(image =>
+                    new Promise((resolve, reject) =>
+                        image.getBase64(Jimp.MIME_PNG, (x, y) =>
+                            resolve(y))));
+
+            Promise.all(values).then(resolve).catch(reject);
+        }).catch(err => console.error(err));
+    });
+}
+
+function splitColumns(n, image) {
     const width = image.bitmap.width;
     const height = image.bitmap.height;
-
-    let promise = new Promise((resolve, reject) => image.getBase64(Jimp.MIME_PNG, (x, y) => resolve(y)));
-
-    promise.then(console.log);
-
-    let values = columns(2, image).map(image => new Promise((resolve, reject) => image.getBase64(Jimp.MIME_PNG, (x, y) => resolve(y))));
-
-    Promise.all(values).then(console.log);
-}).catch(err => console.error(err));
-
-function columns(cols, image) {
-    const width = image.bitmap.width;
-    const height = image.bitmap.height;
-    const columnWidth = width / cols;
+    const columnWidth = width / n;
 
     return _
-        .range(cols)
+        .range(n)
         .map(i => i * columnWidth)
         .map(x => image.clone().crop(x, 0, columnWidth, height));
 }
+
+function splitRows(n, image) {
+    const width = image.bitmap.width;
+    const height = image.bitmap.height;
+    const rowHeight = height / n;
+
+    return _
+        .range(n)
+        .map(i => i * rowHeight)
+        .map(y => image.clone().crop(0, y, width, rowHeight));
+}
+
+module.exports = split;
