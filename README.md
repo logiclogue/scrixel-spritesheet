@@ -8,7 +8,15 @@ Sprite sheet preprocessor for the Scrixel game engine.
 
 ## Examples
 
-Coming soon!
+```
+const scrixelSpriteSheet = require("scrixel-spritesheet");
+
+scrixelSpriteSheet(16, 16, "./res/minecraft.png").then(sprites => {
+    const base64Sprites = sprites.map(sprite => sprite.toString("base64"));
+
+    base64Sprites.forEach(sprite => console.log(sprite));
+});
+```
 
 ## Tests
 
